@@ -66,9 +66,32 @@ fn main() {
         if let Some(row) = history_data.get(current_tag) {
             println!("{}", row.text);
             for (indice, option) in row.options.iter().enumerate() {
-               println!("[{}]. {}", indice, option.text) ;
+                println!("[{}]. {}", indice, option.text) ;
             }
+
+                let mut selection = String::new();
+
+                std::io::stdin().read_line(&mut selection);
+            
+                let select = selection.trim().parse().unwrap_or(99);
+
+                if let Some(selected_option) = &row.options.get(select) {
+                    current_tag = &selected_option.tag;
+                } else {
+                    println!("Invalid command");
+                }
+
+                life += row.life;
+
+                println!("");
+        } else {
             break;
         }
+       
+        if life <= 0 {
+            println!("You lose");
+            break;
+        }
+        
     }
 }
